@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="truck" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e11d48" />
+      <stop offset="100%" stop-color="#be123c" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)" />
+  <g transform="translate(100, 140)">
+    <!-- Cabina y Caja de Camioneta Pick-Up -->
+    <path d="M 50 160 L 50 120 L 140 120 L 220 50 L 380 50 L 430 110 L 560 110 L 560 160 Z" fill="url(#truck)" stroke="#fb7185" stroke-width="3" />
+    <!-- Ventanas -->
+    <polygon points="230,60 300,60 300,110 165,110" fill="#38bdf8" opacity="0.8" />
+    <polygon points="315,60 375,60 415,110 315,110" fill="#38bdf8" opacity="0.8" />
+    <!-- Faros -->
+    <path d="M 50 125 L 65 125 L 65 145 L 50 145 Z" fill="#facc15" />
+    <path d="M 550 125 L 560 125 L 560 145 L 550 145 Z" fill="#ef4444" />
+    <!-- Paragolpes y chasis -->
+    <rect x="35" y="155" width="540" height="20" rx="5" fill="#475569" />
+    <!-- Ruedas -->
+    <circle cx="150" cy="175" r="45" fill="#0f172a" stroke="#64748b" stroke-width="10" />
+    <circle cx="150" cy="175" r="20" fill="#94a3b8" />
+    <circle cx="460" cy="175" r="45" fill="#0f172a" stroke="#64748b" stroke-width="10" />
+    <circle cx="460" cy="175" r="20" fill="#94a3b8" />
+  </g>
+  <text x="400" y="390" text-anchor="middle" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="600" letter-spacing="1">PICK-UP CHACABUCO</text>
+  <text x="400" y="420" text-anchor="middle" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="14">Vehículo disponible</text>
+</svg>

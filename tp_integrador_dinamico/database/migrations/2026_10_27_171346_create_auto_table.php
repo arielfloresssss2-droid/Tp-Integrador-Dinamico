@@ -14,17 +14,19 @@ return new class extends Migration
     public function up()
     {
         Schema::create('auto', function (Blueprint $table) {
-            $table->integer('id', true);
+            $table->increments('id');
             $table->integer('id_marca')->index('fk_id_marca');
-            $table->string('modelo', 20)->nullable();
+            $table->unsignedBigInteger('user_id')->nullable()->index('fk_auto_user');
+            $table->string('modelo', 100);
             $table->integer('anio')->nullable();
-            $table->decimal('precio', 10, 0)->nullable();
-            $table->integer('kilometraje')->nullable();
-            $table->enum('tipo', ['nuevo', 'usado'])->nullable();
-            $table->enum('combustible', ['diesel', 'nafta', 'hibrido', 'electrico'])->nullable();
-            $table->enum('estado', ['disponible', 'reservado', 'vendido'])->nullable();
-            $table->string('imagen', 50)->nullable();
-            $table->string('descripcion', 100)->nullable();
+            $table->decimal('precio', 12, 2)->default(0);
+            $table->integer('kilometraje')->default(0);
+            $table->enum('tipo', ['nuevo', 'usado'])->default('usado');
+            $table->enum('combustible', ['diesel', 'nafta', 'hibrido', 'electrico'])->default('nafta');
+            $table->enum('estado', ['disponible', 'reservado', 'vendido'])->default('disponible');
+            $table->string('imagen', 255)->nullable();
+            $table->text('descripcion')->nullable();
+            $table->timestamps();
         });
     }
 

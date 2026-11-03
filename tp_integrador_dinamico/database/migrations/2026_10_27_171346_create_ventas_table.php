@@ -14,13 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('ventas', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->integer('id_cliente')->index('fk_id_cliente');
+            $table->increments('id');
+            $table->unsignedBigInteger('user_id')->nullable()->index('fk_ventas_user');
+            $table->integer('id_cliente')->nullable()->index('fk_id_cliente');
             $table->integer('id_auto')->index('fk_id_auto');
-            $table->integer('id_vendedor')->index('fk_id_vendedor');
+            $table->integer('id_vendedor')->nullable()->index('fk_id_vendedor');
             $table->date('fecha_venta')->nullable();
-            $table->decimal('precio_final', 10, 0)->nullable();
-            $table->enum('metodo_pago', ['efectivo', 'transferencia'])->nullable();
+            $table->decimal('precio_final', 12, 2)->nullable();
+            $table->enum('metodo_pago', ['efectivo', 'transferencia', 'tarjeta'])->default('transferencia');
+            $table->timestamps();
         });
     }
 

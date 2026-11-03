@@ -14,9 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('marcas', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->string('nombre', 20)->nullable();
-            $table->string('foto', 50)->nullable();
+            $table->increments('id');
+            $table->string('nombre', 50);
+            $table->string('foto', 255)->nullable();
+            $table->timestamps();
         });
     }
 

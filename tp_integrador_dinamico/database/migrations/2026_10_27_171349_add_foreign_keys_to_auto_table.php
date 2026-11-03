@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('auto', function (Blueprint $table) {
-            $table->foreign(['id_marca'], 'fk_id_marca')->references(['id'])->on('marcas');
+            $table->foreign('id_marca', 'fk_id_marca')->references('id')->on('marcas')->onDelete('cascade');
+            $table->foreign('user_id', 'fk_auto_user')->references('id')->on('users')->onDelete('set null');
         });
     }
 
@@ -27,6 +28,7 @@ return new class extends Migration
     {
         Schema::table('auto', function (Blueprint $table) {
             $table->dropForeign('fk_id_marca');
+            $table->dropForeign('fk_auto_user');
         });
     }
 };

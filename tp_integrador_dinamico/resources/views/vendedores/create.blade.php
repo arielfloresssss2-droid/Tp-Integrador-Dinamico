@@ -51,7 +51,7 @@
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
-                                    <input type="text" name="nombre" id="nombre" class="form-control border-start-0 @error('nombre') is-invalid @enderror" value="{{ old('nombre') }}" placeholder="Ej: Ariel" required autofocus>
+                                    <input type="text" name="nombre" id="nombre" class="form-control border-start-0 @error('nombre') is-invalid @enderror" value="{{ old('nombre') }}" placeholder="Ej: Ariel" pattern="[A-Za-záéíóúÁÉÍÓÚüÜñÑ\s\-\.]+" title="Solo letras y espacios, sin números." maxlength="50" required autofocus>
                                 </div>
                                 @error('nombre')
                                     <div class="text-danger small mt-1">{{ $message }}</div>
@@ -65,7 +65,7 @@
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
-                                    <input type="text" name="apellido" id="apellido" class="form-control border-start-0 @error('apellido') is-invalid @enderror" value="{{ old('apellido') }}" placeholder="Ej: Flores" required>
+                                    <input type="text" name="apellido" id="apellido" class="form-control border-start-0 @error('apellido') is-invalid @enderror" value="{{ old('apellido') }}" placeholder="Ej: Flores" pattern="[A-Za-záéíóúÁÉÍÓÚüÜñÑ\s\-\.]+" title="Solo letras y espacios, sin números." maxlength="50" required>
                                 </div>
                                 @error('apellido')
                                     <div class="text-danger small mt-1">{{ $message }}</div>
@@ -79,7 +79,7 @@
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light border-end-0"><i class="bi bi-card-text text-muted"></i></span>
-                                    <input type="text" name="legajo" id="legajo" class="form-control border-start-0 @error('legajo') is-invalid @enderror" value="{{ old('legajo') }}" placeholder="Ej: VEND-001" required>
+                                    <input type="text" name="legajo" id="legajo" class="form-control border-start-0 @error('legajo') is-invalid @enderror" value="{{ old('legajo') }}" placeholder="Ej: VEND-001" maxlength="20" required>
                                 </div>
                                 <div class="form-text small">Identificador único del vendedor dentro de la concesionaria.</div>
                                 @error('legajo')
@@ -109,7 +109,7 @@
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light border-end-0"><i class="bi bi-calendar-event text-muted"></i></span>
-                                    <input type="date" name="fecha_ingreso" id="fecha_ingreso" class="form-control border-start-0 @error('fecha_ingreso') is-invalid @enderror" value="{{ old('fecha_ingreso', date('Y-m-d')) }}" required>
+                                    <input type="date" name="fecha_ingreso" id="fecha_ingreso" class="form-control border-start-0 @error('fecha_ingreso') is-invalid @enderror" value="{{ old('fecha_ingreso', date('Y-m-d')) }}" max="{{ date('Y-m-d') }}" required>
                                 </div>
                                 @error('fecha_ingreso')
                                     <div class="text-danger small mt-1">{{ $message }}</div>

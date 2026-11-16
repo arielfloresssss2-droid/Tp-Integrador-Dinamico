@@ -32,7 +32,7 @@
                             <label for="name" class="form-label fw-semibold small text-secondary">Nombre Completo</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
-                                <input type="text" name="name" id="name" class="form-control border-start-0 @error('name') is-invalid @enderror" value="{{ old('name') }}" placeholder="Ej: Juan Pérez" required autofocus>
+                                <input type="text" name="name" id="name" class="form-control border-start-0 @error('name') is-invalid @enderror" value="{{ old('name') }}" placeholder="Ej: Juan Pérez" pattern="[A-Za-záéíóúÁÉÍÓÚüÜñÑ\s\-\.]+" title="Solo letras y espacios, sin números." maxlength="100" required autofocus>
                             </div>
                             @error('name')
                                 <div class="text-danger small mt-1">{{ $message }}</div>
@@ -43,7 +43,7 @@
                             <label for="email" class="form-label fw-semibold small text-secondary">Correo Electrónico</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
-                                <input type="email" name="email" id="email" class="form-control border-start-0 @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="tu@email.com" required>
+                                <input type="email" name="email" id="email" class="form-control border-start-0 @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="tu@email.com" maxlength="150" required>
                             </div>
                             @error('email')
                                 <div class="text-danger small mt-1">{{ $message }}</div>
@@ -54,7 +54,7 @@
                             <label for="password" class="form-label fw-semibold small text-secondary">Contraseña</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
-                                <input type="password" name="password" id="password" class="form-control border-start-0 @error('password') is-invalid @enderror" placeholder="Mínimo 6 caracteres" required>
+                                <input type="password" name="password" id="password" class="form-control border-start-0 @error('password') is-invalid @enderror" placeholder="Mínimo 6 caracteres" minlength="6" maxlength="100" required>
                             </div>
                             @error('password')
                                 <div class="text-danger small mt-1">{{ $message }}</div>
@@ -65,7 +65,7 @@
                             <label for="password_confirmation" class="form-label fw-semibold small text-secondary">Confirmar Contraseña</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-shield-lock text-muted"></i></span>
-                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control border-start-0" placeholder="Repite tu contraseña" required>
+                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control border-start-0" placeholder="Repite tu contraseña" minlength="6" maxlength="100" required>
                             </div>
                         </div>
 

@@ -63,7 +63,7 @@
                                 <label for="modelo" class="form-label fw-semibold small text-secondary">
                                     Modelo y Versión <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" name="modelo" id="modelo" class="form-control @error('modelo') is-invalid @enderror" value="{{ old('modelo', $auto->modelo) }}" required>
+                                <input type="text" name="modelo" id="modelo" class="form-control @error('modelo') is-invalid @enderror" value="{{ old('modelo', $auto->modelo) }}" maxlength="100" required>
                                 @error('modelo')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -87,7 +87,7 @@
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
-                                    <input type="number" step="any" name="precio" id="precio" class="form-control @error('precio') is-invalid @enderror" value="{{ old('precio', $auto->precio) }}" required>
+                                    <input type="number" step="any" min="0" name="precio" id="precio" class="form-control @error('precio') is-invalid @enderror" value="{{ old('precio', $auto->precio) }}" required>
                                 </div>
                                 @error('precio')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -171,8 +171,11 @@
                             <label for="imagen" class="form-label fw-semibold small text-secondary">
                                 Reemplazar imagen (opcional)
                             </label>
-                            <input type="file" name="imagen" id="imagen" class="form-control" accept="image/*">
-                            <div class="form-text small">Deja este campo vacío si deseas mantener la foto actual.</div>
+                            <input type="file" name="imagen" id="imagen" class="form-control @error('imagen') is-invalid @enderror" accept="image/jpeg,image/png,image/jpg,image/webp">
+                            <div class="form-text small">Deja este campo vacío si deseas mantener la foto actual. Formatos: JPG, PNG, WEBP (máx. 5 MB).</div>
+                            @error('imagen')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <!-- Sección 4: Descripción -->
@@ -181,7 +184,10 @@
                         </h5>
 
                         <div class="mb-4">
-                            <textarea name="descripcion" id="descripcion" rows="4" class="form-control">{{ old('descripcion', $auto->descripcion) }}</textarea>
+                            <textarea name="descripcion" id="descripcion" rows="4" class="form-control @error('descripcion') is-invalid @enderror" maxlength="2000">{{ old('descripcion', $auto->descripcion) }}</textarea>
+                            @error('descripcion')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="d-flex justify-content-end gap-2 pt-3 border-top">

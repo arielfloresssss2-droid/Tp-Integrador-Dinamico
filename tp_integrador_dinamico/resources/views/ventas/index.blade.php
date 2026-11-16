@@ -117,9 +117,9 @@
                 </div>
                 <div class="col-md-2">
                     <div class="input-group input-group-sm">
-                        <input type="date" name="fecha_desde" class="form-control" value="{{ request('fecha_desde') }}" title="Desde">
+                        <input type="date" name="fecha_desde" class="form-control" value="{{ request('fecha_desde') }}" max="{{ date('Y-m-d') }}" title="Desde">
                         <span class="input-group-text bg-light">a</span>
-                        <input type="date" name="fecha_hasta" class="form-control" value="{{ request('fecha_hasta') }}" title="Hasta">
+                        <input type="date" name="fecha_hasta" class="form-control" value="{{ request('fecha_hasta') }}" max="{{ date('Y-m-d') }}" title="Hasta">
                     </div>
                 </div>
                 <div class="col-md-1 d-flex gap-1">

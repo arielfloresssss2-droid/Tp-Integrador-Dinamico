@@ -100,10 +100,10 @@
                             <label class="form-label small fw-semibold text-secondary">Precio ($)</label>
                             <div class="row g-2">
                                 <div class="col-6">
-                                    <input type="number" name="precio_min" class="form-control form-control-sm" placeholder="Mínimo" value="{{ request('precio_min') }}">
+                                    <input type="number" min="0" step="any" name="precio_min" class="form-control form-control-sm" placeholder="Mínimo" value="{{ request('precio_min') }}">
                                 </div>
                                 <div class="col-6">
-                                    <input type="number" name="precio_max" class="form-control form-control-sm" placeholder="Máximo" value="{{ request('precio_max') }}">
+                                    <input type="number" min="0" step="any" name="precio_max" class="form-control form-control-sm" placeholder="Máximo" value="{{ request('precio_max') }}">
                                 </div>
                             </div>
                         </div>
@@ -113,10 +113,10 @@
                             <label class="form-label small fw-semibold text-secondary">Año</label>
                             <div class="row g-2">
                                 <div class="col-6">
-                                    <input type="number" name="anio_min" class="form-control form-control-sm" placeholder="Desde" value="{{ request('anio_min') }}">
+                                    <input type="number" min="1950" max="{{ date('Y') + 1 }}" name="anio_min" class="form-control form-control-sm" placeholder="Desde" value="{{ request('anio_min') }}">
                                 </div>
                                 <div class="col-6">
-                                    <input type="number" name="anio_max" class="form-control form-control-sm" placeholder="Hasta" value="{{ request('anio_max') }}">
+                                    <input type="number" min="1950" max="{{ date('Y') + 1 }}" name="anio_max" class="form-control form-control-sm" placeholder="Hasta" value="{{ request('anio_max') }}">
                                 </div>
                             </div>
                         </div>

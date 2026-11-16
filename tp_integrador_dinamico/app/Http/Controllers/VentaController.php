@@ -217,9 +217,16 @@ class VentaController extends Controller
     {
         $request->validate([
             'metodo_pago' => 'required|in:efectivo,transferencia,tarjeta',
-            'telefono'    => 'nullable|string|max:30',
-            'direccion'   => 'nullable|string|max:100',
-            'dni'         => 'nullable|string|max:20',
+            'dni'         => 'required|string|not_regex:/[a-zA-Z]/|max:20',
+            'telefono'    => 'required|string|max:30',
+            'direccion'   => 'required|string|max:100',
+        ], [
+            'metodo_pago.required' => 'Debe seleccionar un método de pago.',
+            'metodo_pago.in'       => 'El método de pago no es válido.',
+            'dni.required'         => 'El número de DNI es obligatorio.',
+            'dni.not_regex'        => 'El DNI solo puede contener números.',
+            'telefono.required'    => 'El teléfono de contacto es obligatorio.',
+            'direccion.required'   => 'La dirección es obligatoria.',
         ]);
 
         $user = Auth::user();

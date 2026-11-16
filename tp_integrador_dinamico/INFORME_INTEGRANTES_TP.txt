@@ -119,6 +119,7 @@ Responsabilidades y aportes principales:
 3. Form Requests y Validación:
    - Desarrollo de las clases de validación especializada (VendedorRequest, VentaRequest, AutoRequest).
    - Definición de reglas de integridad (legajo único, porcentajes válidos, fechas y tipos de pago).
+   - Definicion de reglas de tipo requerido (letras, numeros).
    - Configuración de mensajes de error amigables en español.
 4. Pruebas Automatizadas (Testing):
    - Creación de la suite de pruebas funcionales en PHPUnit (ConcesionariaCrudTest.php).

@@ -102,7 +102,7 @@
                                 <label for="fecha_venta" class="form-label fw-semibold small text-secondary">
                                     Fecha de la Venta <span class="text-danger">*</span>
                                 </label>
-                                <input type="date" name="fecha_venta" id="fecha_venta" class="form-control @error('fecha_venta') is-invalid @enderror" value="{{ old('fecha_venta', $venta->fecha_venta ? $venta->fecha_venta->format('Y-m-d') : '') }}" required>
+                                <input type="date" name="fecha_venta" id="fecha_venta" class="form-control @error('fecha_venta') is-invalid @enderror" value="{{ old('fecha_venta', $venta->fecha_venta ? $venta->fecha_venta->format('Y-m-d') : '') }}" max="{{ date('Y-m-d') }}" required>
                                 @error('fecha_venta')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror

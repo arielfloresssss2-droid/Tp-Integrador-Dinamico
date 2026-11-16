@@ -32,7 +32,7 @@
                             <label for="email" class="form-label fw-semibold small text-secondary">Correo Electrónico</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
-                                <input type="email" name="email" id="email" class="form-control border-start-0 @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="tu@email.com" required autofocus>
+                                <input type="email" name="email" id="email" class="form-control border-start-0 @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="tu@email.com" maxlength="150" required autofocus>
                             </div>
                             @error('email')
                                 <div class="text-danger small mt-1">{{ $message }}</div>

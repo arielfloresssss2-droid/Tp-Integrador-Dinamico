@@ -26,11 +26,13 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name'     => 'required|string|max:100',
+            'name'     => 'required|string|max:100|not_regex:/[0-9]/',
             'email'    => 'required|string|email|max:150|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ], [
             'name.required'      => 'El nombre es obligatorio.',
+            'name.not_regex'     => 'El nombre no puede contener números.',
+            'name.string'        => 'El nombre debe ser texto.',
             'email.required'     => 'El correo electrónico es obligatorio.',
             'email.email'        => 'Debe ingresar un correo electrónico válido.',
             'email.unique'       => 'Este correo electrónico ya está registrado.',

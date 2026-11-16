@@ -83,7 +83,7 @@
                             <!-- Vendedor -->
                             <div class="col-md-5">
                                 <label for="id_vendedor" class="form-label fw-semibold small text-secondary">
-                                    Vendedor que cierra la operación <span class="text-danger">*</span>
+                                    Vendedor que cierra la operación <span class="text-muted small">(Opcional)</span>
                                 </label>
                                 <select name="id_vendedor" id="id_vendedor" class="form-select @error('id_vendedor') is-invalid @enderror">
                                     <option value="">-- Sin vendedor / Venta directa --</option>
@@ -158,33 +158,33 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label for="cliente_nombre" class="form-label fw-semibold small text-secondary">Nombre <span class="text-danger">*</span></label>
-                                    <input type="text" name="cliente_nombre" id="cliente_nombre" class="form-control @error('cliente_nombre') is-invalid @enderror" value="{{ old('cliente_nombre') }}" placeholder="Ej: Marcos">
+                                    <input type="text" name="cliente_nombre" id="cliente_nombre" class="form-control @error('cliente_nombre') is-invalid @enderror" value="{{ old('cliente_nombre') }}" placeholder="Ej: Marcos" pattern="[A-Za-záéíóúÁÉÍÓÚüÜñÑ\s\-\.]+" title="Solo letras y espacios, sin números." maxlength="50">
                                     @error('cliente_nombre')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <label for="cliente_apellido" class="form-label fw-semibold small text-secondary">Apellido <span class="text-danger">*</span></label>
-                                    <input type="text" name="cliente_apellido" id="cliente_apellido" class="form-control @error('cliente_apellido') is-invalid @enderror" value="{{ old('cliente_apellido') }}" placeholder="Ej: Benítez">
+                                    <input type="text" name="cliente_apellido" id="cliente_apellido" class="form-control @error('cliente_apellido') is-invalid @enderror" value="{{ old('cliente_apellido') }}" placeholder="Ej: Benítez" pattern="[A-Za-záéíóúÁÉÍÓÚüÜñÑ\s\-\.]+" title="Solo letras y espacios, sin números." maxlength="50">
                                     @error('cliente_apellido')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-md-4">
                                     <label for="cliente_dni" class="form-label fw-semibold small text-secondary">DNI / CUIT</label>
-                                    <input type="text" name="cliente_dni" id="cliente_dni" class="form-control" value="{{ old('cliente_dni') }}" placeholder="Ej: 34123456">
+                                    <input type="text" name="cliente_dni" id="cliente_dni" class="form-control" value="{{ old('cliente_dni') }}" placeholder="Ej: 34123456" pattern="[0-9]+" title="Solo números" maxlength="20">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="cliente_telefono" class="form-label fw-semibold small text-secondary">Teléfono</label>
-                                    <input type="text" name="cliente_telefono" id="cliente_telefono" class="form-control" value="{{ old('cliente_telefono') }}" placeholder="Ej: 2352-441122">
+                                    <input type="tel" name="cliente_telefono" id="cliente_telefono" class="form-control" value="{{ old('cliente_telefono') }}" placeholder="Ej: 2352-441122" maxlength="30">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="cliente_email" class="form-label fw-semibold small text-secondary">Email</label>
-                                    <input type="email" name="cliente_email" id="cliente_email" class="form-control" value="{{ old('cliente_email') }}" placeholder="cliente@correo.com">
+                                    <input type="email" name="cliente_email" id="cliente_email" class="form-control" value="{{ old('cliente_email') }}" placeholder="cliente@correo.com" maxlength="50">
                                 </div>
                                 <div class="col-12">
                                     <label for="cliente_direccion" class="form-label fw-semibold small text-secondary">Dirección / Localidad</label>
-                                    <input type="text" name="cliente_direccion" id="cliente_direccion" class="form-control" value="{{ old('cliente_direccion') }}" placeholder="Ej: Pueyrredón 120, Chacabuco">
+                                    <input type="text" name="cliente_direccion" id="cliente_direccion" class="form-control" value="{{ old('cliente_direccion') }}" placeholder="Ej: Pueyrredón 120, Chacabuco" maxlength="100">
                                 </div>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
                                 <label for="fecha_venta" class="form-label fw-semibold small text-secondary">
                                     Fecha de la Venta <span class="text-danger">*</span>
                                 </label>
-                                <input type="date" name="fecha_venta" id="fecha_venta" class="form-control @error('fecha_venta') is-invalid @enderror" value="{{ old('fecha_venta', date('Y-m-d')) }}" required>
+                                <input type="date" name="fecha_venta" id="fecha_venta" class="form-control @error('fecha_venta') is-invalid @enderror" value="{{ old('fecha_venta', date('Y-m-d')) }}" max="{{ date('Y-m-d') }}" required>
                                 @error('fecha_venta')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -263,13 +263,22 @@
         const esExistente = document.getElementById('clienteExistenteRadio').checked;
         const boxExistente = document.getElementById('boxClienteExistente');
         const boxNuevo = document.getElementById('boxClienteNuevo');
+        const selectCliente = document.getElementById('id_cliente');
+        const inputNombre = document.getElementById('cliente_nombre');
+        const inputApellido = document.getElementById('cliente_apellido');
 
         if (esExistente) {
             boxExistente.classList.remove('d-none');
             boxNuevo.classList.add('d-none');
+            if (selectCliente) selectCliente.required = true;
+            if (inputNombre) inputNombre.required = false;
+            if (inputApellido) inputApellido.required = false;
         } else {
             boxExistente.classList.add('d-none');
             boxNuevo.classList.remove('d-none');
+            if (selectCliente) selectCliente.required = false;
+            if (inputNombre) inputNombre.required = true;
+            if (inputApellido) inputApellido.required = true;
         }
     }
 
@@ -303,6 +312,7 @@
 
     // Ejecutar al cargar por si hay valor seleccionado
     document.addEventListener('DOMContentLoaded', function() {
+        toggleClienteTipo();
         const select = document.getElementById('id_auto');
         if (select && select.value) {
             onAutoChange(select);

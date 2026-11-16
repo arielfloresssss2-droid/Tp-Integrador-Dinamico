@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('auto', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_marca')->index('fk_id_marca');
+            $table->unsignedInteger('id_marca')->index('fk_id_marca');
             $table->unsignedBigInteger('user_id')->nullable()->index('fk_auto_user');
             $table->string('modelo', 100);
             $table->integer('anio')->nullable();

@@ -63,7 +63,7 @@
                                 <label for="modelo" class="form-label fw-semibold small text-secondary">
                                     Modelo y Versión <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" name="modelo" id="modelo" class="form-control @error('modelo') is-invalid @enderror" value="{{ old('modelo') }}" placeholder="Ej: Hilux SRX 2.8 TDI 4x4 AT" required>
+                                <input type="text" name="modelo" id="modelo" class="form-control @error('modelo') is-invalid @enderror" value="{{ old('modelo') }}" placeholder="Ej: Hilux SRX 2.8 TDI 4x4 AT" maxlength="100" required>
                                 @error('modelo')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -87,7 +87,7 @@
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
-                                    <input type="number" step="any" name="precio" id="precio" class="form-control @error('precio') is-invalid @enderror" value="{{ old('precio') }}" placeholder="Ej: 35000000" required>
+                                    <input type="number" step="any" min="0" name="precio" id="precio" class="form-control @error('precio') is-invalid @enderror" value="{{ old('precio') }}" placeholder="Ej: 35000000" required>
                                 </div>
                                 @error('precio')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -155,7 +155,7 @@
                             <label for="imagen" class="form-label fw-semibold small text-secondary">
                                 Selecciona una foto nítida de tu vehículo
                             </label>
-                            <input type="file" name="imagen" id="imagen" class="form-control @error('imagen') is-invalid @enderror" accept="image/*" onchange="previewImage(event)">
+                            <input type="file" name="imagen" id="imagen" class="form-control @error('imagen') is-invalid @enderror" accept="image/jpeg,image/png,image/jpg,image/webp" onchange="previewImage(event)">
                             <div class="form-text small">Formatos permitidos: JPG, PNG, WEBP. Tamaño máximo: 5 MB.</div>
                             @error('imagen')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -177,7 +177,7 @@
                             <label for="descripcion" class="form-label fw-semibold small text-secondary">
                                 Descripción completa del auto
                             </label>
-                            <textarea name="descripcion" id="descripcion" rows="4" class="form-control @error('descripcion') is-invalid @enderror" placeholder="Describe el estado de conservación, services realizados, equipamiento extra, tapizado, cubiertas, etc.">{{ old('descripcion') }}</textarea>
+                            <textarea name="descripcion" id="descripcion" rows="4" class="form-control @error('descripcion') is-invalid @enderror" placeholder="Describe el estado de conservación, services realizados, equipamiento extra, tapizado, cubiertas, etc." maxlength="2000">{{ old('descripcion') }}</textarea>
                             @error('descripcion')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

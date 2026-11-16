@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('ventas', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedBigInteger('user_id')->nullable()->index('fk_ventas_user');
-            $table->integer('id_cliente')->nullable()->index('fk_id_cliente');
-            $table->integer('id_auto')->index('fk_id_auto');
-            $table->integer('id_vendedor')->nullable()->index('fk_id_vendedor');
+            $table->unsignedInteger('id_cliente')->nullable()->index('fk_id_cliente');
+            $table->unsignedInteger('id_auto')->index('fk_id_auto');
+            $table->unsignedInteger('id_vendedor')->nullable()->index('fk_id_vendedor');
             $table->date('fecha_venta')->nullable();
             $table->decimal('precio_final', 12, 2)->nullable();
             $table->enum('metodo_pago', ['efectivo', 'transferencia', 'tarjeta'])->default('transferencia');

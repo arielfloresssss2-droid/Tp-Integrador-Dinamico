@@ -53,18 +53,27 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label for="dni" class="form-label small fw-semibold text-secondary">DNI / CUIT</label>
-                                        <input type="text" name="dni" id="dni" class="form-control" placeholder="Ej: 38450123" value="{{ old('dni') }}">
+                                        <label for="dni" class="form-label small fw-semibold text-secondary">DNI / CUIT <span class="text-danger">*</span></label>
+                                        <input type="text" name="dni" id="dni" class="form-control @error('dni') is-invalid @enderror" placeholder="Ej: 38450123" value="{{ old('dni') }}" pattern="[0-9]+" title="Solo números sin puntos ni guiones." maxlength="20" required>
+                                        @error('dni')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label for="telefono" class="form-label small fw-semibold text-secondary">Teléfono de Contacto</label>
-                                        <input type="text" name="telefono" id="telefono" class="form-control" placeholder="Ej: 2352-456789" value="{{ old('telefono') }}">
+                                        <label for="telefono" class="form-label small fw-semibold text-secondary">Teléfono de Contacto <span class="text-danger">*</span></label>
+                                        <input type="tel" name="telefono" id="telefono" class="form-control @error('telefono') is-invalid @enderror" placeholder="Ej: 2352-456789" value="{{ old('telefono') }}" maxlength="30" required>
+                                        @error('telefono')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="direccion" class="form-label small fw-semibold text-secondary">Dirección / Localidad</label>
-                                        <input type="text" name="direccion" id="direccion" class="form-control" placeholder="Ej: Av. Alsina 250, Chacabuco" value="{{ old('direccion') }}">
+                                        <label for="direccion" class="form-label small fw-semibold text-secondary">Dirección / Localidad <span class="text-danger">*</span></label>
+                                        <input type="text" name="direccion" id="direccion" class="form-control @error('direccion') is-invalid @enderror" placeholder="Ej: Av. Alsina 250, Chacabuco" value="{{ old('direccion') }}" maxlength="100" required>
+                                        @error('direccion')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +87,7 @@
                                 </h5>
 
                                 <div class="form-check p-3 border rounded-3 mb-2 payment-option">
-                                    <input class="form-check-input ms-0 me-3" type="radio" name="metodo_pago" id="pago_transferencia" value="transferencia" checked>
+                                    <input class="form-check-input ms-0 me-3" type="radio" name="metodo_pago" id="pago_transferencia" value="transferencia" checked required>
                                     <label class="form-check-label w-100" for="pago_transferencia">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
@@ -91,7 +100,7 @@
                                 </div>
 
                                 <div class="form-check p-3 border rounded-3 mb-2 payment-option">
-                                    <input class="form-check-input ms-0 me-3" type="radio" name="metodo_pago" id="pago_efectivo" value="efectivo" {{ old('metodo_pago') == 'efectivo' ? 'checked' : '' }}>
+                                    <input class="form-check-input ms-0 me-3" type="radio" name="metodo_pago" id="pago_efectivo" value="efectivo" {{ old('metodo_pago') == 'efectivo' ? 'checked' : '' }} required>
                                     <label class="form-check-label w-100" for="pago_efectivo">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
@@ -104,7 +113,7 @@
                                 </div>
 
                                 <div class="form-check p-3 border rounded-3 payment-option">
-                                    <input class="form-check-input ms-0 me-3" type="radio" name="metodo_pago" id="pago_tarjeta" value="tarjeta" {{ old('metodo_pago') == 'tarjeta' ? 'checked' : '' }}>
+                                    <input class="form-check-input ms-0 me-3" type="radio" name="metodo_pago" id="pago_tarjeta" value="tarjeta" {{ old('metodo_pago') == 'tarjeta' ? 'checked' : '' }} required>
                                     <label class="form-check-label w-100" for="pago_tarjeta">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>

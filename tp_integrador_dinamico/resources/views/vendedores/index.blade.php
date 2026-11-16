@@ -85,7 +85,10 @@
                 </div>
                 <div class="col-md-3">
                     <select name="sort" class="form-select">
-                        <option value="">Ordenar: Apellido (A-Z)</option>
+                        <option value="nombre_asc" {{ request('sort') == 'nombre_asc' || !request('sort') ? 'selected' : '' }}>Ordenar: Apellido (A-Z)</option>
+                        <option value="nombre_desc" {{ request('sort') === 'nombre_desc' ? 'selected' : '' }}>Apellido (Z-A)</option>
+                        <option value="comision_desc" {{ request('sort') === 'comision_desc' ? 'selected' : '' }}>Mayor Comisión</option>
+                        <option value="comision_asc" {{ request('sort') === 'comision_asc' ? 'selected' : '' }}>Menor Comisión</option>
                         <option value="ventas_desc" {{ request('sort') === 'ventas_desc' ? 'selected' : '' }}>Más ventas cerradas</option>
                         <option value="recientes" {{ request('sort') === 'recientes' ? 'selected' : '' }}>Ingreso más reciente</option>
                         <option value="antiguos" {{ request('sort') === 'antiguos' ? 'selected' : '' }}>Mayor antigüedad</option>
@@ -111,11 +114,31 @@
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
-                            <th scope="col" class="ps-4">Vendedor</th>
+                            <th scope="col" class="ps-4">
+                                <a href="{{ request()->fullUrlWithQuery(['sort' => request('sort') === 'nombre_asc' ? 'nombre_desc' : 'nombre_asc']) }}" class="text-decoration-none text-dark d-inline-flex align-items-center gap-1" title="Ordenar por apellido">
+                                    Vendedor
+                                    <i class="bi {{ request('sort') === 'nombre_desc' ? 'bi-sort-alpha-down-alt text-danger' : (request('sort') === 'nombre_asc' ? 'bi-sort-alpha-down text-danger' : 'bi-arrow-down-up text-muted small') }}"></i>
+                                </a>
+                            </th>
                             <th scope="col">Legajo</th>
-                            <th scope="col">Comisión</th>
-                            <th scope="col">Fecha Ingreso</th>
-                            <th scope="col">Ventas</th>
+                            <th scope="col">
+                                <a href="{{ request()->fullUrlWithQuery(['sort' => request('sort') === 'comision_desc' ? 'comision_asc' : 'comision_desc']) }}" class="text-decoration-none text-dark d-inline-flex align-items-center gap-1" title="Ordenar por comisión">
+                                    Comisión
+                                    <i class="bi {{ request('sort') === 'comision_desc' ? 'bi-sort-numeric-down-alt text-danger' : (request('sort') === 'comision_asc' ? 'bi-sort-numeric-up-alt text-danger' : 'bi-arrow-down-up text-muted small') }}"></i>
+                                </a>
+                            </th>
+                            <th scope="col">
+                                <a href="{{ request()->fullUrlWithQuery(['sort' => request('sort') === 'recientes' ? 'antiguos' : 'recientes']) }}" class="text-decoration-none text-dark d-inline-flex align-items-center gap-1" title="Ordenar por fecha de ingreso">
+                                    Fecha Ingreso
+                                    <i class="bi {{ request('sort') === 'antiguos' ? 'bi-sort-up text-danger' : (request('sort') === 'recientes' ? 'bi-sort-down text-danger' : 'bi-arrow-down-up text-muted small') }}"></i>
+                                </a>
+                            </th>
+                            <th scope="col">
+                                <a href="{{ request()->fullUrlWithQuery(['sort' => request('sort') === 'ventas_desc' ? 'ventas_asc' : 'ventas_desc']) }}" class="text-decoration-none text-dark d-inline-flex align-items-center gap-1" title="Ordenar por cantidad de ventas">
+                                    Ventas
+                                    <i class="bi {{ request('sort') === 'ventas_desc' ? 'bi-sort-numeric-down text-danger' : (request('sort') === 'ventas_asc' ? 'bi-sort-numeric-up text-danger' : 'bi-arrow-down-up text-muted small') }}"></i>
+                                </a>
+                            </th>
                             <th scope="col">Estado</th>
                             <th scope="col" class="text-end pe-4">Acciones</th>
                         </tr>

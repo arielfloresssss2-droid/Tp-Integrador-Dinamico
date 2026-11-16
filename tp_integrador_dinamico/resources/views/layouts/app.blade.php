@@ -211,8 +211,11 @@
                 </ul>
 
                 <div class="d-flex align-items-center gap-2">
+                    <a href="{{ route('autos.create') }}" class="btn btn-accent btn-sm px-3 py-2 fw-semibold">
+                        <i class="bi bi-plus-lg me-1"></i> Publicar Auto
+                    </a>
                     <a href="{{ route('ventas.create') }}" class="btn btn-outline-danger btn-sm px-3 py-2 fw-semibold">
-                        <i class="bi bi-plus-circle me-1"></i> Nueva Venta
+                        <i class="bi bi-cart-plus me-1"></i> Nueva Venta
                     </a>
                     <a href="{{ route('vendedores.create') }}" class="btn btn-outline-secondary btn-sm px-3 py-2 fw-semibold">
                         <i class="bi bi-person-plus me-1"></i> Nuevo Vendedor

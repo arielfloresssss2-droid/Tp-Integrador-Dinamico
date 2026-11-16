@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vendedor;
+use App\Http\Requests\VendedorRequest;
 use Illuminate\Http\Request;
 
 class VendedorController extends Controller
@@ -38,6 +39,19 @@ class VendedorController extends Controller
             case 'ventas_desc':
                 $query->orderBy('ventas_count', 'desc');
                 break;
+            case 'ventas_asc':
+                $query->orderBy('ventas_count', 'asc');
+                break;
+            case 'comision_desc':
+                $query->orderBy('comision', 'desc');
+                break;
+            case 'comision_asc':
+                $query->orderBy('comision', 'asc');
+                break;
+            case 'nombre_desc':
+                $query->orderBy('apellido', 'desc')->orderBy('nombre', 'desc');
+                break;
+            case 'nombre_asc':
             default:
                 $query->orderBy('apellido', 'asc')->orderBy('nombre', 'asc');
                 break;
@@ -57,25 +71,8 @@ class VendedorController extends Controller
         return view('vendedores.create');
     }
 
-    public function store(Request $request)
+    public function store(VendedorRequest $request)
     {
-        $request->validate([
-            'nombre'        => 'required|string|max:50',
-            'apellido'      => 'required|string|max:50',
-            'legajo'        => 'required|string|max:20|unique:vendedor,legajo',
-            'comision'      => 'required|numeric|min:0|max:100',
-            'fecha_ingreso' => 'required|date',
-            'activo'        => 'nullable|boolean',
-        ], [
-            'nombre.required'        => 'El nombre es obligatorio.',
-            'apellido.required'      => 'El apellido es obligatorio.',
-            'legajo.required'        => 'El número de legajo es obligatorio.',
-            'legajo.unique'          => 'Ya existe un vendedor registrado con este legajo.',
-            'comision.required'      => 'El porcentaje de comisión es obligatorio.',
-            'comision.numeric'       => 'La comisión debe ser un valor numérico.',
-            'fecha_ingreso.required' => 'La fecha de ingreso es obligatoria.',
-        ]);
-
         $data = $request->only([
             'nombre',
             'apellido',
@@ -106,25 +103,9 @@ class VendedorController extends Controller
         return view('vendedores.edit', compact('vendedor'));
     }
 
-    public function update(Request $request, $id)
+    public function update(VendedorRequest $request, $id)
     {
         $vendedor = Vendedor::findOrFail($id);
-
-        $request->validate([
-            'nombre'        => 'required|string|max:50',
-            'apellido'      => 'required|string|max:50',
-            'legajo'        => 'required|string|max:20|unique:vendedor,legajo,' . $vendedor->id,
-            'comision'      => 'required|numeric|min:0|max:100',
-            'fecha_ingreso' => 'required|date',
-            'activo'        => 'nullable|boolean',
-        ], [
-            'nombre.required'        => 'El nombre es obligatorio.',
-            'apellido.required'      => 'El apellido es obligatorio.',
-            'legajo.required'        => 'El número de legajo es obligatorio.',
-            'legajo.unique'          => 'Ya existe otro vendedor con este número de legajo.',
-            'comision.required'      => 'El porcentaje de comisión es obligatorio.',
-            'fecha_ingreso.required' => 'La fecha de ingreso es obligatoria.',
-        ]);
 
         $data = $request->only([
             'nombre',

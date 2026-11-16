@@ -89,7 +89,7 @@
                         <input type="text" name="search" class="form-control border-start-0" placeholder="Buscar vehículo, cliente..." value="{{ request('search') }}">
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <select name="vendedor_id" class="form-select">
                         <option value="">Todos los Vendedores</option>
                         @foreach ($vendedores as $vend)
@@ -107,10 +107,18 @@
                         <option value="tarjeta" {{ request('metodo_pago') === 'tarjeta' ? 'selected' : '' }}>Tarjeta</option>
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
+                    <select name="sort" class="form-select">
+                        <option value="fecha_desc" {{ request('sort') == 'fecha_desc' || !request('sort') ? 'selected' : '' }}>Fecha: Más recientes</option>
+                        <option value="fecha_asc" {{ request('sort') == 'fecha_asc' ? 'selected' : '' }}>Fecha: Más antiguas</option>
+                        <option value="precio_desc" {{ request('sort') == 'precio_desc' ? 'selected' : '' }}>Precio: Mayor a menor</option>
+                        <option value="precio_asc" {{ request('sort') == 'precio_asc' ? 'selected' : '' }}>Precio: Menor a mayor</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
                     <div class="input-group input-group-sm">
                         <input type="date" name="fecha_desde" class="form-control" value="{{ request('fecha_desde') }}" title="Desde">
-                        <span class="input-group-text bg-light">hasta</span>
+                        <span class="input-group-text bg-light">a</span>
                         <input type="date" name="fecha_hasta" class="form-control" value="{{ request('fecha_hasta') }}" title="Hasta">
                     </div>
                 </div>
@@ -118,7 +126,7 @@
                     <button type="submit" class="btn btn-dark-custom w-100" title="Filtrar">
                         <i class="bi bi-funnel-fill"></i>
                     </button>
-                    @if (request()->hasAny(['search', 'vendedor_id', 'metodo_pago', 'fecha_desde', 'fecha_hasta']))
+                    @if (request()->hasAny(['search', 'vendedor_id', 'metodo_pago', 'fecha_desde', 'fecha_hasta', 'sort']))
                         <a href="{{ route('ventas.index') }}" class="btn btn-outline-secondary" title="Limpiar filtros">
                             <i class="bi bi-x-lg"></i>
                         </a>
@@ -134,12 +142,22 @@
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
-                            <th scope="col" class="ps-4">N° Venta / Fecha</th>
+                            <th scope="col" class="ps-4">
+                                <a href="{{ request()->fullUrlWithQuery(['sort' => request('sort') === 'fecha_asc' ? 'fecha_desc' : 'fecha_asc']) }}" class="text-decoration-none text-dark d-inline-flex align-items-center gap-1" title="Ordenar por fecha">
+                                    N° Venta / Fecha
+                                    <i class="bi {{ request('sort') === 'fecha_asc' ? 'bi-sort-up text-danger' : (request('sort') === 'fecha_desc' ? 'bi-sort-down text-danger' : 'bi-arrow-down-up text-muted small') }}"></i>
+                                </a>
+                            </th>
                             <th scope="col">Vehículo</th>
                             <th scope="col">Vendedor Asignado</th>
                             <th scope="col">Cliente / Comprador</th>
                             <th scope="col">Medio de Pago</th>
-                            <th scope="col">Precio Final</th>
+                            <th scope="col">
+                                <a href="{{ request()->fullUrlWithQuery(['sort' => request('sort') === 'precio_desc' ? 'precio_asc' : 'precio_desc']) }}" class="text-decoration-none text-dark d-inline-flex align-items-center gap-1" title="Ordenar por precio">
+                                    Precio Final
+                                    <i class="bi {{ request('sort') === 'precio_desc' ? 'bi-sort-numeric-down-alt text-danger' : (request('sort') === 'precio_asc' ? 'bi-sort-numeric-up-alt text-danger' : 'bi-arrow-down-up text-muted small') }}"></i>
+                                </a>
+                            </th>
                             <th scope="col" class="text-end pe-4">Acciones</th>
                         </tr>
                     </thead>

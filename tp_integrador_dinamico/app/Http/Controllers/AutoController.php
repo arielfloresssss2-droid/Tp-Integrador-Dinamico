@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Auto;
 use App\Models\Marca;
+use App\Http\Requests\AutoRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -125,29 +126,8 @@ class AutoController extends Controller
     /**
      * Almacena un auto publicado en la base de datos.
      */
-    public function store(Request $request)
+    public function store(AutoRequest $request)
     {
-        $request->validate([
-            'id_marca'    => 'required|exists:marcas,id',
-            'modelo'      => 'required|string|max:100',
-            'anio'        => 'required|integer|min:1950|max:' . (date('Y') + 1),
-            'precio'      => 'required|numeric|min:0',
-            'kilometraje' => 'required|integer|min:0',
-            'tipo'        => 'required|in:nuevo,usado',
-            'combustible' => 'required|in:diesel,nafta,hibrido,electrico',
-            'imagen'      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-            'descripcion' => 'nullable|string|max:2000',
-        ], [
-            'id_marca.required'    => 'Debe seleccionar una marca.',
-            'id_marca.exists'      => 'La marca seleccionada no es válida.',
-            'modelo.required'      => 'El modelo es obligatorio.',
-            'anio.required'        => 'El año es obligatorio.',
-            'precio.required'      => 'El precio es obligatorio.',
-            'kilometraje.required' => 'El kilometraje es obligatorio.',
-            'imagen.image'         => 'El archivo debe ser una imagen válida (jpeg, png, jpg, webp).',
-            'imagen.max'           => 'La imagen no debe pesar más de 5MB.',
-        ]);
-
         $data = $request->only([
             'id_marca',
             'modelo',
@@ -199,7 +179,7 @@ class AutoController extends Controller
      */
     public function edit($id)
     {
-        $auto = Auto::where('user_id', Auth::id())->findOrFail($id);
+        $auto = Auto::findOrFail($id);
         $marcas = Marca::orderBy('nombre')->get();
 
         return view('autos.edit', compact('auto', 'marcas'));
@@ -208,22 +188,9 @@ class AutoController extends Controller
     /**
      * Actualiza la información y/o foto de un auto publicado.
      */
-    public function update(Request $request, $id)
+    public function update(AutoRequest $request, $id)
     {
-        $auto = Auto::where('user_id', Auth::id())->findOrFail($id);
-
-        $request->validate([
-            'id_marca'    => 'required|exists:marcas,id',
-            'modelo'      => 'required|string|max:100',
-            'anio'        => 'required|integer|min:1950|max:' . (date('Y') + 1),
-            'precio'      => 'required|numeric|min:0',
-            'kilometraje' => 'required|integer|min:0',
-            'tipo'        => 'required|in:nuevo,usado',
-            'combustible' => 'required|in:diesel,nafta,hibrido,electrico',
-            'estado'      => 'required|in:disponible,reservado,vendido',
-            'imagen'      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-            'descripcion' => 'nullable|string|max:2000',
-        ]);
+        $auto = Auto::findOrFail($id);
 
         $data = $request->only([
             'id_marca',
@@ -265,7 +232,7 @@ class AutoController extends Controller
      */
     public function destroy($id)
     {
-        $auto = Auto::where('user_id', Auth::id())->findOrFail($id);
+        $auto = Auto::findOrFail($id);
 
         // Si ya está vendido o tiene ventas asociadas
         if ($auto->estado === 'vendido') {
@@ -278,7 +245,7 @@ class AutoController extends Controller
 
         $auto->delete();
 
-        return redirect()->route('autos.my')
-            ->with('info', 'La publicación ha sido eliminada.');
+        return redirect()->route('autos.index')
+            ->with('info', 'El vehículo ha sido eliminado del catálogo.');
     }
 }

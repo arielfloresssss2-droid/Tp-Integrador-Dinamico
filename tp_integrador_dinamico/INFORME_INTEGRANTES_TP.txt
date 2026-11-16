@@ -1,0 +1,184 @@
+================================================================================
+TRABAJO PRÁCTICO INTEGRADOR DINÁMICO - LARAVEL
+SISTEMA DE GESTIÓN DE CONCESIONARIA ("PICK-UP CHACABUCO")
+================================================================================
+
+DATOS DEL GRUPO:
+--------------------------------------------------------------------------------
+Grupo: G2
+Integrantes:
+  1. Ariel Flores (Usuario GitHub: @arielfloresssss2-droid)
+  2. Lautaro Álvarez (Usuario GitHub: @lautaroalvarez-coder)
+
+Enlace al Repositorio de GitHub:
+https://github.com/arielfloresssss2-droid/Tp-Integrador-Dinamico.git
+
+================================================================================
+DESCRIPCIÓN DEL PROYECTO
+================================================================================
+Aplicación web desarrollada en Laravel para la administración integral de una
+concesionaria de vehículos ("Pick-Up Chacabuco").
+El sistema implementa la gestión comercial completa a través de modelos Eloquent,
+relaciones de base de datos, validaciones de negocio desacopladas mediante Form Requests,
+búsqueda y ordenamiento dinámico por columnas, y una interfaz de usuario limpia
+y ordenada desarrollada con Bootstrap 5.
+
+================================================================================
+CUMPLIMIENTO DE REQUISITOS OBLIGATORIOS
+================================================================================
+
+1. CRUD COMPLETO PARA DOS ENTIDADES RELACIONADAS ENTRE SÍ:
+   - Entidades principales: "Vendedor" y "Ventas" (además del módulo de "Auto" y "Marca").
+   - Relación implementada:
+     * Un Vendedor posee múltiples Ventas asociadas:
+       Vendedor (1) ----< (N) Ventas (Relación hasMany / belongsTo).
+     * Una Venta pertenece a un Auto específico y a un Cliente.
+   - Operaciones implementadas para VENDEDOR:
+     * Crear (Alta de nuevo vendedor con legajo, nombre, apellido, comisión y fecha de ingreso).
+     * Listar (Tabla con métricas de ventas y comisiones, estado activo/inactivo).
+     * Ver Detalle (Ficha técnica del vendedor, comisiones acumuladas e historial de ventas).
+     * Editar (Actualización de datos respetando reglas de unicidad de legajo).
+     * Eliminar (Baja física con verificación de integridad referencial: si posee ventas asociadas, se deshabilita para resguardar la consistencia de datos).
+     * Activar / Desactivar (Toggle rápido de estado operativo).
+   - Operaciones implementadas para VENTAS:
+     * Crear (Registrar venta asignando auto disponible, vendedor y cliente nuevo o existente; actualiza automáticamente el stock del auto a "vendido").
+     * Listar (Libro histórico de operaciones con estadísticas de facturación, comisiones y ticket promedio).
+     * Ver Detalle (Comprobante / Factura comercial con datos completos y formato de impresión).
+     * Editar (Modificación de vendedor asignado, cliente, fecha de operación y monto).
+     * Eliminar (Anulación de venta; retorna automáticamente el vehículo al estado "disponible").
+
+2. BUSCADOR Y FILTROS:
+   - En Vendedores:
+     * Buscador en tiempo real por nombre, apellido o número de legajo.
+     * Filtro por estado (Activos / Inactivos).
+   - En Ventas:
+     * Buscador por modelo de vehículo, datos del cliente (nombre, apellido, DNI) y vendedor.
+     * Filtro por vendedor específico.
+     * Filtro por método de pago (Transferencia, Efectivo, Tarjeta).
+     * Filtro por rango de fechas (Desde - Hasta).
+   - En Autos:
+     * Buscador por modelo, versión, marca y descripción.
+     * Filtros combinados por marca, condición (nuevo/usado), tipo de combustible, disponibilidad y rangos de precio y año.
+
+3. ORDENAMIENTO DE LA TABLA:
+   - En Vendedores:
+     * Por Apellido/Nombre (A-Z y Z-A) mediante selector y cabecera de tabla cliqueable.
+     * Por Porcentaje de Comisión (Mayor a menor / Menor a mayor).
+     * Por Fecha de Ingreso (Mayor antigüedad / Más recientes).
+     * Por Cantidad de Ventas cerradas.
+   - En Ventas:
+     * Por Fecha de Operación (Recientes / Antiguas) mediante cabecera interactiva y selector.
+     * Por Precio Final de Venta (Mayor a menor / Menor a mayor) con iconos dinámicos Bootstrap.
+   - En Autos:
+     * Por Precio (ascendente y descendente), Año más nuevo y Menor kilometraje.
+
+4. VALIDACIÓN DE DATOS MEDIANTE FORM REQUEST:
+   Se crearon y utilizaron Form Requests dedicados en la capa Http/Requests:
+   - App\Http\Requests\VendedorRequest:
+     * Valida campos obligatorios: nombre, apellido, fecha_ingreso, comision (numérico entre 0 y 100%).
+     * Valida unicidad del legajo en base de datos (Rule::unique('vendedor', 'legajo')->ignore($id)).
+     * Mensajes de error personalizados y traducidos al español.
+   - App\Http\Requests\VentaRequest:
+     * Valida existencia de vehículo disponible (exists:auto,id).
+     * Valida método de pago y tipo de cliente (creación o selección dinámica).
+     * Mensajes claros para cada regla de negocio.
+   - App\Http\Requests\AutoRequest:
+     * Valida marca existente, modelo, año, precio positivo, kilometraje, tipo de combustible y subida de imágenes (formatos jpeg, png, webp hasta 5MB).
+
+5. INTERFAZ LIMPIA Y ORDENADA CON BOOTSTRAP:
+   - Uso de Bootstrap 5 y Bootstrap Icons vía CDN.
+   - Diseño moderno y profesional: tablas con estilos hover, badges de colores según estado, tarjetas con sombras suaves (shadow-sm), botones de acción rápida, modales y alertas flash de sesión (success, error, warning, info).
+   - Totalmente responsivo para computadoras, tablets y dispositivos móviles.
+
+6. LOGIN Y LOGOUT (OPTATIVO):
+   - Sistema de autenticación implementado (Registro, Inicio de Sesión, Cierre de Sesión).
+   - Todas las rutas del CRUD comercial (Vendedores, Ventas y Catálogo) se encuentran configuradas con acceso directo para facilitar una evaluación rápida y sin trabas sin requerir login obligatorio.
+
+================================================================================
+DESCRIPCIÓN DE TAREAS REALIZADAS POR CADA INTEGRANTE
+================================================================================
+
+--------------------------------------------------------------------------------
+INTEGRANTE 1: ARIEL FLORES
+--------------------------------------------------------------------------------
+Responsabilidades y aportes principales:
+1. Arquitectura y Base de Datos:
+   - Inicialización del proyecto Laravel y configuración del repositorio Git.
+   - Diseño del diagrama de entidad-relación para la concesionaria.
+   - Creación de las migraciones de base de datos en MySQL:
+     * Tabla 'vendedor' (campos: nombre, apellido, legajo, comision, fecha_ingreso, activo).
+     * Tabla 'ventas' (claves foráneas hacia auto, vendedor, cliente y usuario).
+     * Tablas auxiliares 'auto', 'marcas' y 'cliente'.
+2. Modelado Eloquent y Lógica de Negocio:
+   - Creación de los Modelos Eloquent: Vendedor, Ventas, Auto, Marca, Cliente.
+   - Definición de relaciones Eloquent (hasMany, belongsTo) y métodos calculados:
+     * getNombreCompletoAttribute() en Vendedor y Cliente.
+     * getTotalVentasAttribute() y getTotalComisionesAttribute() en Vendedor.
+     * getComisionMontoAttribute() y getPrecioFinalFormateadoAttribute() en Ventas.
+     * getImagenUrlAttribute() y formatos de precio/km en Auto.
+3. Form Requests y Validación:
+   - Desarrollo de las clases de validación especializada (VendedorRequest, VentaRequest, AutoRequest).
+   - Definición de reglas de integridad (legajo único, porcentajes válidos, fechas y tipos de pago).
+   - Configuración de mensajes de error amigables en español.
+4. Pruebas Automatizadas (Testing):
+   - Creación de la suite de pruebas funcionales en PHPUnit (ConcesionariaCrudTest.php).
+   - Verificación del 100% de los tests pasando: flujo completo de CRUD, ordenamiento, buscador y validaciones de Form Requests.
+
+--------------------------------------------------------------------------------
+INTEGRANTE 2: LAUTARO ÁLVAREZ
+--------------------------------------------------------------------------------
+Responsabilidades y aportes principales:
+1. Frontend y Maquetación con Bootstrap:
+   - Configuración de la interfaz visual con Bootstrap 5 y Bootstrap Icons.
+   - Diseño del layout principal (layouts/app.blade.php) con barra de navegación, pie de página institucional y contenedor de alertas de sesión.
+   - Maquetación y diseño de las vistas de Vendedores:
+     * vendedores/index.blade.php: tabla interactiva, métricas superiores y badges de estado.
+     * vendedores/create.blade.php y vendedores/edit.blade.php: formularios ordenados con validación visual.
+     * vendedores/show.blade.php: ficha del vendedor con rendimiento financiero e historial de ventas.
+   - Maquetación y diseño de las vistas de Ventas:
+     * ventas/index.blade.php: tablero de facturación con estadísticas globales, ticket promedio y comisiones.
+     * ventas/create.blade.php y ventas/edit.blade.php: formulario dinámico de venta con selección de auto y cliente.
+     * ventas/show.blade.php: comprobante formal de venta con vista optimizada para impresión.
+   - Vistas del catálogo de autos (autos/index.blade.php, create, edit, show).
+2. Lógica de Controladores:
+   - Implementación de los métodos en VendedorController, VentaController y AutoController.
+   - Construcción de consultas dinámicas con Query Builder / Eloquent para el buscador (WHERE, LIKE, orWhereHas).
+   - Implementación del ordenamiento dinámico por columnas (OrderBy por precio, fecha, nombre, ventas, comisiones).
+   - Manejo de transacciones de base de datos (DB::transaction) para asegurar que al concretar o anular una venta se actualice en forma atómica el estado del vehículo (disponible / vendido).
+3. Usabilidad y Feedback:
+   - Integración de alertas flash dismissibles para confirmaciones de altas, bajas y modificaciones.
+   - Diálogos JavaScript de confirmación previa a la eliminación de registros.
+
+================================================================================
+GUÍA RÁPIDA DE INSTALACIÓN Y EJECUCIÓN LOCAL
+================================================================================
+1. Clonar el repositorio:
+   git clone https://github.com/arielfloresssss2-droid/Tp-Integrador-Dinamico.git
+   cd Tp-Integrador-Dinamico/tp_integrador_dinamico
+
+2. Instalar dependencias (si es necesario):
+   composer install
+
+3. Configurar el entorno:
+   Copiar o editar el archivo .env con la conexión a MySQL:
+     DB_CONNECTION=mysql
+     DB_HOST=127.0.0.1
+     DB_PORT=3306
+     DB_DATABASE=concesionaria
+     DB_USERNAME=root
+     DB_PASSWORD=
+
+4. Generar clave de aplicación (si fuera nueva):
+   php artisan key:generate
+
+5. Ejecutar migraciones y datos de prueba:
+   php artisan migrate --seed
+
+6. Iniciar el servidor local:
+   php artisan serve
+
+   Acceder en el navegador a: http://127.0.0.1:8000
+
+7. Ejecutar los tests automáticos:
+   php artisan test
+================================================================================

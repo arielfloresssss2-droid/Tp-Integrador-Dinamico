@@ -171,6 +171,32 @@
                             <p class="small mb-0">Esta unidad se encuentra actualmente en proceso de reserva.</p>
                         </div>
                     @endif
+
+                    <!-- Panel de Gestión Rápida del Concesionario -->
+                    <div class="mt-4 pt-3 border-top">
+                        <span class="small text-muted fw-bold text-uppercase d-block mb-2">
+                            <i class="bi bi-gear-wide-connected me-1 text-danger"></i> Gestión del Vehículo (CRUD)
+                        </span>
+                        <div class="d-grid gap-2">
+                            @if ($auto->estado === 'disponible')
+                                <a href="{{ route('ventas.create') }}?auto_id={{ $auto->id }}" class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-cart-plus me-1"></i> Registrar Venta de esta Unidad
+                                </a>
+                            @endif
+                            <div class="btn-group btn-group-sm">
+                                <a href="{{ route('autos.edit', $auto->id) }}" class="btn btn-outline-dark">
+                                    <i class="bi bi-pencil me-1"></i> Editar Vehículo
+                                </a>
+                                <form action="{{ route('autos.destroy', $auto->id) }}" method="POST" class="d-inline w-50" onsubmit="return confirm('¿Seguro que deseas eliminar este vehículo del catálogo?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger rounded-start-0 w-100">
+                                        <i class="bi bi-trash me-1"></i> Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@ use App\Models\Auto;
 use App\Models\Cliente;
 use App\Models\Vendedor;
 use App\Models\Ventas;
+use App\Http\Requests\VentaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -48,7 +49,23 @@ class VentaController extends Controller
             $query->whereDate('fecha_venta', '<=', $request->fecha_hasta);
         }
 
-        $ventas = $query->latest('fecha_venta')->latest('id')->paginate(10)->withQueryString();
+        switch ($request->get('sort')) {
+            case 'fecha_asc':
+                $query->orderBy('fecha_venta', 'asc')->orderBy('id', 'asc');
+                break;
+            case 'precio_desc':
+                $query->orderBy('precio_final', 'desc');
+                break;
+            case 'precio_asc':
+                $query->orderBy('precio_final', 'asc');
+                break;
+            case 'fecha_desc':
+            default:
+                $query->orderBy('fecha_venta', 'desc')->orderBy('id', 'desc');
+                break;
+        }
+
+        $ventas = $query->paginate(10)->withQueryString();
 
         $totalVentasMonto    = Ventas::sum('precio_final');
         $cantidadOperaciones = Ventas::count();
@@ -86,29 +103,8 @@ class VentaController extends Controller
         return view('ventas.create', compact('autosDisponibles', 'vendedores', 'clientes'));
     }
 
-    public function store(Request $request)
+    public function store(VentaRequest $request)
     {
-        $request->validate([
-            'id_auto'        => 'required|exists:auto,id',
-            'id_vendedor'    => 'nullable|exists:vendedor,id',
-            'cliente_tipo'   => 'required|in:existente,nuevo',
-            'id_cliente'     => 'nullable|required_if:cliente_tipo,existente|exists:cliente,id',
-            'cliente_nombre' => 'nullable|required_if:cliente_tipo,nuevo|string|max:50',
-            'cliente_apellido' => 'nullable|required_if:cliente_tipo,nuevo|string|max:50',
-            'cliente_dni'    => 'nullable|string|max:20',
-            'cliente_telefono' => 'nullable|string|max:30',
-            'cliente_email'  => 'nullable|email|max:50',
-            'cliente_direccion' => 'nullable|string|max:100',
-            'fecha_venta'    => 'required|date',
-            'precio_final'   => 'required|numeric|min:0',
-            'metodo_pago'    => 'required|in:efectivo,transferencia,tarjeta',
-        ], [
-            'id_auto.required'      => 'Debe seleccionar un vehículo para concretar la venta.',
-            'fecha_venta.required'  => 'La fecha de la venta es obligatoria.',
-            'precio_final.required' => 'El precio final de la operación es obligatorio.',
-            'metodo_pago.required'  => 'Debe seleccionar el método de pago.',
-        ]);
-
         return DB::transaction(function () use ($request) {
             $auto = Auto::lockForUpdate()->findOrFail($request->id_auto);
 
@@ -166,21 +162,9 @@ class VentaController extends Controller
         return view('ventas.edit', compact('venta', 'vendedores', 'clientes'));
     }
 
-    public function update(Request $request, $id)
+    public function update(VentaRequest $request, $id)
     {
         $venta = Ventas::findOrFail($id);
-
-        $request->validate([
-            'id_vendedor'  => 'nullable|exists:vendedor,id',
-            'id_cliente'   => 'nullable|exists:cliente,id',
-            'fecha_venta'  => 'required|date',
-            'precio_final' => 'required|numeric|min:0',
-            'metodo_pago'  => 'required|in:efectivo,transferencia,tarjeta',
-        ], [
-            'fecha_venta.required'  => 'La fecha de la venta es obligatoria.',
-            'precio_final.required' => 'El precio final es obligatorio.',
-            'metodo_pago.required'  => 'El método de pago es obligatorio.',
-        ]);
 
         $venta->update([
             'id_vendedor'  => $request->id_vendedor,

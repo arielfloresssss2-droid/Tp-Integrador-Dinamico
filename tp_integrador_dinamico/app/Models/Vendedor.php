@@ -11,7 +11,6 @@ class Vendedor extends Model
 
     protected $table = 'vendedor';
     protected $primaryKey = 'id';
-    public $timestamps = false;
 
     protected $fillable = [
         'nombre',
@@ -22,8 +21,33 @@ class Vendedor extends Model
         'activo',
     ];
 
+    protected $casts = [
+        'fecha_ingreso' => 'date',
+        'activo'        => 'boolean',
+        'comision'      => 'decimal:2',
+    ];
+
     public function ventas()
     {
         return $this->hasMany(Ventas::class, 'id_vendedor');
+    }
+
+    public function getNombreCompletoAttribute()
+    {
+        return trim("{$this->nombre} {$this->apellido}");
+    }
+
+    public function getTotalVentasAttribute()
+    {
+        return $this->ventas->sum('precio_final');
+    }
+
+    public function getTotalComisionesAttribute()
+    {
+        $total = 0;
+        foreach ($this->ventas as $venta) {
+            $total += ($venta->precio_final * ($this->comision ?? 0)) / 100;
+        }
+        return $total;
     }
 }

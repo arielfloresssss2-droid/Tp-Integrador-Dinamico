@@ -17,8 +17,11 @@
                     <a href="{{ route('autos.create') }}" class="btn btn-accent btn-lg px-4">
                         <i class="bi bi-plus-circle me-2"></i> Publicar mi Auto
                     </a>
-                    <a href="#catalogo" class="btn btn-outline-light btn-lg px-4">
-                        <i class="bi bi-search me-2"></i> Explorar Catálogo
+                    <a href="{{ route('ventas.index') }}" class="btn btn-outline-light btn-lg px-4">
+                        <i class="bi bi-receipt me-2"></i> Gestión de Ventas
+                    </a>
+                    <a href="{{ route('vendedores.index') }}" class="btn btn-outline-light btn-lg px-4">
+                        <i class="bi bi-people me-2"></i> Vendedores
                     </a>
                 </div>
             </div>

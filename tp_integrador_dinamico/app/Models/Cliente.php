@@ -11,7 +11,6 @@ class Cliente extends Model
 
     protected $table = 'cliente';
     protected $primaryKey = 'id';
-    public $timestamps = false;
 
     protected $fillable = [
         'nombre',
@@ -25,5 +24,10 @@ class Cliente extends Model
     public function ventas()
     {
         return $this->hasMany(Ventas::class, 'id_cliente');
+    }
+
+    public function getNombreCompletoAttribute()
+    {
+        return trim("{$this->nombre} {$this->apellido}") ?: ($this->email ?? 'Cliente sin nombre');
     }
 }

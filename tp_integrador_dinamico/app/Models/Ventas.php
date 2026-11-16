@@ -23,46 +23,40 @@ class Ventas extends Model
     ];
 
     protected $casts = [
-        'fecha_venta' => 'date',
+        'fecha_venta'  => 'date',
+        'precio_final' => 'decimal:2',
     ];
 
-    /**
-     * Relación con el Auto comprado/vendido
-     */
     public function auto()
     {
         return $this->belongsTo(Auto::class, 'id_auto');
     }
 
-    /**
-     * Relación con el Usuario comprador
-     */
-    public function comprador()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
-    /**
-     * Relación con el Cliente (compatibilidad)
-     */
-    public function cliente()
-    {
-        return $this->belongsTo(Cliente::class, 'id_cliente');
-    }
-
-    /**
-     * Relación con el Vendedor
-     */
     public function vendedor()
     {
         return $this->belongsTo(Vendedor::class, 'id_vendedor');
     }
 
-    /**
-     * Precio final formateado
-     */
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class, 'id_cliente');
+    }
+
+    public function comprador()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function getPrecioFinalFormateadoAttribute()
     {
         return '$ ' . number_format($this->precio_final ?? 0, 0, ',', '.');
+    }
+
+    public function getComisionMontoAttribute()
+    {
+        if ($this->vendedor && $this->vendedor->comision) {
+            return ($this->precio_final * $this->vendedor->comision) / 100;
+        }
+        return 0;
     }
 }

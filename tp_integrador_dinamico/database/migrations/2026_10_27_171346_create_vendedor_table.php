@@ -14,13 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('vendedor', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->string('nombre', 20)->nullable();
-            $table->string('apellido', 20)->nullable();
-            $table->string('legajo', 20)->nullable();
-            $table->decimal('comision', 10, 0)->nullable();
+            $table->increments('id');
+            $table->string('nombre', 50);
+            $table->string('apellido', 50);
+            $table->string('legajo', 20)->unique();
+            $table->decimal('comision', 6, 2)->default(0);
             $table->date('fecha_ingreso')->nullable();
-            $table->boolean('activo')->nullable();
+            $table->boolean('activo')->default(true);
+            $table->timestamps();
         });
     }
 
